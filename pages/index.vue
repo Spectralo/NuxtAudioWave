@@ -1,51 +1,84 @@
 <template>
   <div class="container">
-    <div class="bar1">
-    </div>
-    <div class="bar2">
-    </div>
-    <div class="bar3">
-    </div>
-    <div class="bar4">
-    </div>
-    <div class="bar5">
-    </div>
-    <div class="bar6">
-    </div>
-    <div class="bar7">
-    </div>
-    <div class="bar8">
-    </div>
-    <div class="bar9">
-    </div>
-    <div class="bar10">
-    </div>
+    <div class="bar" :style="{'--bar-height': bar1height + '%'}"></div>
+    <div class="bar" :style="{'--bar-height': bar2height + '%'}"></div>
+    <div class="bar" :style="{'--bar-height': bar3height + '%'}"></div>
+    <div class="bar" :style="{'--bar-height': bar4height + '%'}"></div>
+    <div class="bar" :style="{'--bar-height': bar5height + '%'}"></div> 
+    <div class="bar" :style="{'--bar-height': bar6height + '%'}"></div> 
+    <div class="bar" :style="{'--bar-height': bar7height + '%'}"></div>  
+    <div class="bar" :style="{'--bar-height': bar8height + '%'}"></div>  
+    <div class="bar" :style="{'--bar-height': bar9height + '%'}"></div>  
+    <div class="bar" :style="{'--bar-height': bar10height + '%'}"></div>
+    <div class="bar" :style="{'--bar-height': bar11height + '%'}"></div>
+    <div class="bar" :style="{'--bar-height': bar12height + '%'}"></div>
+    <div class="bar" :style="{'--bar-height': bar13height + '%'}"></div>
+    <div class="bar" :style="{'--bar-height': bar14height + '%'}"></div>
+    <div class="bar" :style="{'--bar-height': bar15height + '%'}"></div> 
+    <div class="bar" :style="{'--bar-height': bar16height + '%'}"></div> 
+    <div class="bar" :style="{'--bar-height': bar17height + '%'}"></div>  
+    <div class="bar" :style="{'--bar-height': bar18height + '%'}"></div>  
+    <div class="bar" :style="{'--bar-height': bar19height + '%'}"></div>  
+    <div class="bar" :style="{'--bar-height': bar20height + '%'}"></div>
+
   </div>
 </template>
 
 <script lang="js" setup>
 import { onMounted } from 'vue';
 
-let bar1height = 0;
-let bar2height = 0;
-let bar3height = 0;
-let bar4height = 0;
-let bar5height = 0;
-let bar6height = 0;
-let bar7height = 0;
-let bar8height = 0;
-let bar9height = 0;
-let bar10height = 0;
+
+const bar1height = ref(0);
+const bar2height = ref(0);
+const bar3height = ref(0);
+const bar4height = ref(0);
+const bar5height = ref(0);
+const bar6height = ref(0);
+const bar7height = ref(0);
+const bar8height = ref(0);
+const bar9height = ref(0);
+const bar10height = ref(0);
+const bar11height = ref(0);
+const bar12height = ref(0);
+const bar13height = ref(0);
+const bar14height = ref(0);
+const bar15height = ref(0);
+const bar16height = ref(0);
+const bar17height = ref(0);
+const bar18height = ref(0);
+const bar19height = ref(0);
+const bar20height = ref(0);
 
 
 onMounted(() => {
+  let barheights = [bar1height, bar2height, bar3height, bar4height, bar5height, bar6height, bar7height, bar8height, bar9height, bar10height, bar11height, bar12height, bar13height, bar14height, bar15height, bar16height, bar17height, bar18height, bar19height, bar20height]
+
   navigator.mediaDevices
     .getUserMedia({ audio: true })
-    .then((MediaStream) =>
+    .then((MediaStream) => {
+      const audioCtx = new AudioContext();
+      const source = audioCtx.createMediaStreamSource(MediaStream);
+      const analyser = audioCtx.createAnalyser();
+      source.connect(analyser);
+      const bufferLength = 20;
+      const dataArray = new Uint8Array(bufferLength);
+    
+      getAudio()
       setInterval(() => {
-        console.log(MediaStream.getAudioTracks())
-      }, 1000)
-    )
+        barheights.forEach((bar, index) => {
+          const currentHeight = bar.value
+          const targetHeight = (dataArray[index]-122) / 6 * 100
+          const transitionSpeed = 0.01
+          const interpolatedHeight = currentHeight + (targetHeight - currentHeight) * transitionSpeed;
+          bar.value = interpolatedHeight
+        })
+      }, 1)
+      async function getAudio() {
+        setInterval(() => {
+          analyser.getByteTimeDomainData(dataArray);
+        }, 100)
+      }
+    })
 });
 
 
@@ -59,146 +92,17 @@ body {
 }
 .bar {
   background: linear-gradient(
-    to top, 
-    #f6c177,
-    #f6c177 50%,
-    #191724 50%,
-    #191724
+    to bottom, 
+    #191724,
+    #191724 var(--bar-height),
+    #f6c177 var(--bar-height),
+    #f6c177
   );
   height: 80vh;
   width: 3vw;
   border-radius: 5px;
 }
 
-.bar1 {
-  background: linear-gradient(
-    to top, 
-    #f6c177,
-    #f6c177 50%,
-    #191724 50%,
-    #191724
-  );
-  height: 80vh;
-  width: 3vw;
-  border-radius: 5px;
-}
-
-.bar2 {
-  background: linear-gradient(
-    to top, 
-    #f6c177,
-    #f6c177 50%,
-    #191724 50%,
-    #191724
-  );
-  height: 80vh;
-  width: 3vw;
-  border-radius: 5px;
-}
-
-.bar3 {
-  background: linear-gradient(
-    to top, 
-    #f6c177,
-    #f6c177 50%,
-    #191724 50%,
-    #191724
-  );
-  height: 80vh;
-  width: 3vw;
-  border-radius: 5px;
-}
-
-.bar4 {
-  background: linear-gradient(
-    to top, 
-    #f6c177,
-    #f6c177 50%,
-    #191724 50%,
-    #191724
-  );
-  height: 80vh;
-  width: 3vw;
-  border-radius: 5px;
-}
-
-.bar5 {
-  background: linear-gradient(
-    to top, 
-    #f6c177,
-    #f6c177 50%,
-    #191724 50%,
-    #191724
-  );
-  height: 80vh;
-  width: 3vw;
-  border-radius: 5px;
-}
-
-.bar6 {
-  background: linear-gradient(
-    to top, 
-    #f6c177,
-    #f6c177 50%,
-    #191724 50%,
-    #191724
-  );
-  height: 80vh;
-  width: 3vw;
-  border-radius: 5px;
-}
-
-.bar7 {
-  background: linear-gradient(
-    to top, 
-    #f6c177,
-    #f6c177 50%,
-    #191724 50%,
-    #191724
-  );
-  height: 80vh;
-  width: 3vw;
-  border-radius: 5px;
-}
-
-.bar8 {
-  background: linear-gradient(
-    to top, 
-    #f6c177,
-    #f6c177 50%,
-    #191724 50%,
-    #191724
-  );
-  height: 80vh;
-  width: 3vw;
-  border-radius: 5px;
-}
-
-.bar9 {
-  background: linear-gradient(
-    to top, 
-    #f6c177,
-    #f6c177 50%,
-    #191724 50%,
-    #191724
-  );
-  height: 80vh;
-  width: 3vw;
-  border-radius: 5px;
-}
-
-.bar10 {
-  background: linear-gradient(
-    to top, 
-    #f6c177,
-    #f6c177 50%,
-    #191724 50%,
-    #191724
-  );
-  height: 80vh;
-  width: 3vw;
-  border-radius: 5px;
-}
 
 
 
