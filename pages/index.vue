@@ -102,7 +102,7 @@ onMounted(() => {
       setInterval(() => {
         barheights.forEach((bar, index) => {
           const currentHeight = bar.value
-          const targetHeight = (dataArray[index]-118) / 10 * 100 
+          const targetHeight = (dataArray[index]-118) / 11 * 100
           console.log((dataArray[index]-118) / 10 * 100)
           const transitionSpeed = 0.01
           const interpolatedHeight = currentHeight + (targetHeight - currentHeight) * transitionSpeed;
