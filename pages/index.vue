@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" @click="ShowThemes()">
     <div class="bar" :style="{'--bar-height': bar1height + '%'}"></div>
     <div class="bar" :style="{'--bar-height': bar2height + '%'}"></div>
     <div class="bar" :style="{'--bar-height': bar3height + '%'}"></div>
@@ -23,21 +23,23 @@
 
   </div>
   <div class="containerbutton">
-    <Icon name="mdi:color" class="icon" size="3vw"/>
+    <Icon name="mdi:color" class="icon" size="3vw" @click="ShowThemes()"/>
   </div>
-  <div class="containerthemes">
+  <div class="containerthemes" :style="{'visibility': hidden }">
     <ul class="themelist">
-      <li class="green">Green</li>
-      <li class="orange">Orange</li>
-      <li class="blue">Blue</li>
-      <li class="yellow">Yellow</li>
-      <li class="pink">Pink</li>
+      <li class="green" @click="ChangeTheme('green')">Green</li>
+      <li class="orange" @click="ChangeTheme('orange')">Orange</li>
+      <li class="blue" @click="ChangeTheme('blue')">Blue</li>
+      <li class="yellow" @click="ChangeTheme('yellow')">Yellow</li>
+      <li class="pink" @click="ChangeTheme('pink')">Pink</li>
     </ul>
 </div>
 </template>
 
 <script lang="js" setup>
 import { onMounted } from 'vue';
+
+let hidden = "hidden"
 
 
 const bar1height = ref(0);
@@ -61,10 +63,27 @@ const bar18height = ref(0);
 const bar19height = ref(0);
 const bar20height = ref(0);
 
-const backgroundColor = ref('#1f1d2e');
-const barColor = ref('#f6c177');
-const backBarColor = ref('#191724');
+function ShowThemes() {
+  if (hidden == "hidden") {
+    hidden = "visible"
+  } else {
+    hidden = "hidden"
+  }
+}
 
+function ChangeTheme(color) {
+  if (color == "green") {
+    document.documentElement.style.cssText = "--bar-color: #9ccfd8";
+  } else if (color == "orange") {
+    document.documentElement.style.cssText = "--bar-color: #ea9a97";
+  } else if (color == "blue") {
+    document.documentElement.style.cssText = "--bar-color: #3e8fb0";
+  } else if (color == "yellow") {
+    document.documentElement.style.cssText = "--bar-color: #f6c177";
+  } else if (color == "pink") {
+    document.documentElement.style.cssText = "--bar-color: #eb6f92";
+  }
+}
 
 onMounted(() => {
   let barheights = [bar1height, bar2height, bar3height, bar4height, bar5height, bar6height, bar7height, bar8height, bar9height, bar10height, bar11height, bar12height, bar13height, bar14height, bar15height, bar16height, bar17height, bar18height, bar19height, bar20height]
@@ -83,13 +102,13 @@ onMounted(() => {
       setInterval(() => {
         barheights.forEach((bar, index) => {
           const currentHeight = bar.value
-          const targetHeight = (dataArray[index]-122) / 6 * 100
-          console.log((dataArray[index]-122) / 6 * 100)
+          const targetHeight = (dataArray[index]-118) / 10 * 100 
+          console.log((dataArray[index]-118) / 10 * 100)
           const transitionSpeed = 0.01
           const interpolatedHeight = currentHeight + (targetHeight - currentHeight) * transitionSpeed;
           bar.value = interpolatedHeight
         })
-      }, 0.1)
+      }, 1)
       async function getAudio() {
         setInterval(() => {
           analyser.getByteTimeDomainData(dataArray);
@@ -117,8 +136,8 @@ body {
     to bottom, 
     #191724,
     #191724 var(--bar-height),
-    #f6c177 var(--bar-height),
-    #f6c177
+    var(--bar-color) var(--bar-height),
+    var(--bar-color)
   );
   height: 80vh;
   width: 3vw;
@@ -162,6 +181,7 @@ body {
 .themelist {
   list-style-type: none;
   font-family: 'Courier New', Courier, monospace;
+  font-size: 1.5vw;
   margin: 0px;
   padding-left: 0px;
 }
@@ -169,6 +189,11 @@ li {
   padding: 10px;
   cursor: pointer;
 }
+li:hover {
+  background-color: var(--bar-color);
+  color: var(--background-color);
+}
+
 
 .container {
   display: flex;
