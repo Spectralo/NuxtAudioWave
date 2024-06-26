@@ -20,8 +20,8 @@
 import { onMounted } from 'vue';
 
 let hidden = "hidden"
-let barheights = [ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0)]
-
+let barnum = 20
+let barheights = []
 
 function ShowThemes() {
   if (hidden == "hidden") {
@@ -29,6 +29,10 @@ function ShowThemes() {
   } else {
     hidden = "hidden"
   }
+}
+
+for (let i = 0; i < barnum; i++) {
+  barheights.push(ref(0))
 }
 
 function ChangeTheme(color) {
@@ -52,7 +56,7 @@ onMounted(() => {
       const source = audioCtx.createMediaStreamSource(MediaStream);
       const analyser = audioCtx.createAnalyser();
       source.connect(analyser);
-      const bufferLength = 20;
+      const bufferLength = barnum
       const dataArray = new Uint8Array(bufferLength);
       getAudio()
       setInterval(() => {
@@ -97,7 +101,6 @@ body {
   );
   height: 80vh;
   width: 3vw;
-  border-radius: 5px;
 }
 
 .pink {
