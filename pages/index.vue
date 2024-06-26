@@ -12,8 +12,6 @@
       <li class="blue" @click="ChangeTheme('blue')">Blue</li>
       <li class="yellow" @click="ChangeTheme('yellow')">Yellow</li>
       <li class="pink" @click="ChangeTheme('pink')">Pink</li>
-      <p>Bars:</p>
-      <input class="input" type="number"  min="2" max=""></input>
     </ul>
 </div>
 </template>
