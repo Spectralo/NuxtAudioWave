@@ -1,75 +1,27 @@
-# Nuxt 3 Minimal Starter
+# Nuxt Audio Wave
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A simple Nuxt App written in 2 hours
+It display the sound your microphone hear in a (maybe?) beautiful way. 
+It's not perfect because it uses the sound of your microphone, which is probably not next to your speakers.
 
-## Setup
+## How to run it on your own server!
 
-Make sure to install the dependencies:
+Idk what you would do that but here you go 
 
-```bash
-# npm
-npm install
+*If you use Node, then replace each bun by node*
 
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
+```
 bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
 bun run build
+bun .output/server/index.mjs
 ```
 
-Locally preview production build:
+## Where to see it in action ?
 
-```bash
-# npm
-npm run preview
+Go see it at https://wave.spectralo.hackclub.app (It's hosted on the hackclub's nest !!!!)
 
-# pnpm
-pnpm run preview
+## Some screenshots 
 
-# yarn
-yarn preview
+<img width="2168" alt="image" src="https://github.com/Spectralo/NuxtAudioWave/assets/122629939/47e3ed82-940e-4404-a0ad-12624d23bbcc">
 
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+<img width="2124" alt="image" src="https://github.com/Spectralo/NuxtAudioWave/assets/122629939/99fde326-7877-46ef-b277-0fc5650f4a35">

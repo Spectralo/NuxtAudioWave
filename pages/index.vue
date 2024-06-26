@@ -1,26 +1,6 @@
 <template>
   <div class="container" @click="ShowThemes()">
-    <div class="bar" :style="{'--bar-height': bar1height + '%'}"></div>
-    <div class="bar" :style="{'--bar-height': bar2height + '%'}"></div>
-    <div class="bar" :style="{'--bar-height': bar3height + '%'}"></div>
-    <div class="bar" :style="{'--bar-height': bar4height + '%'}"></div>
-    <div class="bar" :style="{'--bar-height': bar5height + '%'}"></div> 
-    <div class="bar" :style="{'--bar-height': bar6height + '%'}"></div> 
-    <div class="bar" :style="{'--bar-height': bar7height + '%'}"></div>  
-    <div class="bar" :style="{'--bar-height': bar8height + '%'}"></div>  
-    <div class="bar" :style="{'--bar-height': bar9height + '%'}"></div>  
-    <div class="bar" :style="{'--bar-height': bar10height + '%'}"></div>
-    <div class="bar" :style="{'--bar-height': bar11height + '%'}"></div>
-    <div class="bar" :style="{'--bar-height': bar12height + '%'}"></div>
-    <div class="bar" :style="{'--bar-height': bar13height + '%'}"></div>
-    <div class="bar" :style="{'--bar-height': bar14height + '%'}"></div>
-    <div class="bar" :style="{'--bar-height': bar15height + '%'}"></div> 
-    <div class="bar" :style="{'--bar-height': bar16height + '%'}"></div> 
-    <div class="bar" :style="{'--bar-height': bar17height + '%'}"></div>  
-    <div class="bar" :style="{'--bar-height': bar18height + '%'}"></div>  
-    <div class="bar" :style="{'--bar-height': bar19height + '%'}"></div>  
-    <div class="bar" :style="{'--bar-height': bar20height + '%'}"></div>
-
+    <div v-for="(height) in barheights" class="bar" :style="{'--bar-height': height.value+'%'}"></div>
   </div>
   <div class="containerbutton">
     <Icon name="mdi:color" class="icon" size="3vw" @click="ShowThemes()"/>
@@ -40,28 +20,8 @@
 import { onMounted } from 'vue';
 
 let hidden = "hidden"
+let barheights = [ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0),ref(0)]
 
-
-const bar1height = ref(0);
-const bar2height = ref(0);
-const bar3height = ref(0);
-const bar4height = ref(0);
-const bar5height = ref(0);
-const bar6height = ref(0);
-const bar7height = ref(0);
-const bar8height = ref(0);
-const bar9height = ref(0);
-const bar10height = ref(0);
-const bar11height = ref(0);
-const bar12height = ref(0);
-const bar13height = ref(0);
-const bar14height = ref(0);
-const bar15height = ref(0);
-const bar16height = ref(0);
-const bar17height = ref(0);
-const bar18height = ref(0);
-const bar19height = ref(0);
-const bar20height = ref(0);
 
 function ShowThemes() {
   if (hidden == "hidden") {
@@ -72,21 +32,18 @@ function ShowThemes() {
 }
 
 function ChangeTheme(color) {
-  if (color == "green") {
-    document.documentElement.style.cssText = "--bar-color: #9ccfd8";
-  } else if (color == "orange") {
-    document.documentElement.style.cssText = "--bar-color: #ea9a97";
-  } else if (color == "blue") {
-    document.documentElement.style.cssText = "--bar-color: #3e8fb0";
-  } else if (color == "yellow") {
-    document.documentElement.style.cssText = "--bar-color: #f6c177";
-  } else if (color == "pink") {
-    document.documentElement.style.cssText = "--bar-color: #eb6f92";
+  let COLORS = {
+    green: "#9ccfd8",
+    orange: "#ea9a97",
+    blue: "#3e8fb0",
+    yellow: "#f6c177",
+    pink: "#eb6f92"
   }
+  document.documentElement.style.setProperty('--bar-color', COLORS[color])
 }
 
 onMounted(() => {
-  let barheights = [bar1height, bar2height, bar3height, bar4height, bar5height, bar6height, bar7height, bar8height, bar9height, bar10height, bar11height, bar12height, bar13height, bar14height, bar15height, bar16height, bar17height, bar18height, bar19height, bar20height]
+  // Defining barheights list
 
   navigator.mediaDevices
     .getUserMedia({ audio: true })
@@ -97,17 +54,16 @@ onMounted(() => {
       source.connect(analyser);
       const bufferLength = 20;
       const dataArray = new Uint8Array(bufferLength);
-    
       getAudio()
       setInterval(() => {
-        barheights.forEach((bar, index) => {
+        barheights.forEach((bar , index) => {
           const currentHeight = bar.value
           const targetHeight = (dataArray[index]-118) / 11 * 100
-          console.log((dataArray[index]-118) / 10 * 100)
           const transitionSpeed = 0.01
           const interpolatedHeight = currentHeight + (targetHeight - currentHeight) * transitionSpeed;
           bar.value = interpolatedHeight
-        })
+          })
+        console.log(barheights)
       }, 1)
       async function getAudio() {
         setInterval(() => {
